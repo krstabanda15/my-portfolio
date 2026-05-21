@@ -61,7 +61,7 @@ const defaultContent = {
         "A resume-style portfolio with a private admin editor for updating profile, projects, skills, and experience without editing the HTML directly.",
       tech: ["HTML", "CSS", "JavaScript"],
       status: "Current website",
-      link: "",
+      link: "https://kimreubentabanda.vercel.app",
     },
     {
       name: "KRST Mobile Website",
