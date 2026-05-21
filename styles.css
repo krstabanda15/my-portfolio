@@ -145,6 +145,7 @@ img {
     url("assets/images/cover-page.jpg") center 58% / cover;
   opacity: 0.42;
   mask-image: linear-gradient(#000 52%, transparent);
+  z-index: 0;
 }
 
 .hero-copy,
@@ -152,6 +153,17 @@ img {
 .stats-band,
 .section-block {
   position: relative;
+}
+
+.hero-copy,
+.portrait-stage {
+  z-index: 2;
+  position: relative;
+}
+
+.hero-actions .btn {
+  position: relative;
+  z-index: 3;
 }
 
 .eyebrow {
@@ -194,6 +206,7 @@ img {
   flex-wrap: wrap;
   gap: 0.8rem;
   margin-top: 1.8rem;
+  margin-bottom: 2.6rem;
 }
 
 .btn {
@@ -342,7 +355,8 @@ img {
 }
 
 .stats-band {
-  margin-top: -5rem;
+  /* reduce overlap with hero actions while keeping a slight tuck */
+  margin-top: -2.5rem;
   padding-bottom: 5rem;
 }
 
