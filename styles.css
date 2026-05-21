@@ -161,10 +161,19 @@ img {
   position: relative;
 }
 
-.hero-actions .btn {
-  position: relative;
-  z-index: 3;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.8rem;
 }
+.hero-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
 
 .eyebrow {
   margin-bottom: 0.8rem;
@@ -942,6 +951,21 @@ textarea {
   .hero-copy h1 {
     font-size: clamp(3.2rem, 17vw, 5.6rem);
   }
+  .hero-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.hero-actions .btn {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.8rem 1rem;
+}
+
+.hero-actions .btn:first-child {
+  grid-column: 1 / -1;
+}
 
   .portrait-stage {
     min-height: 470px;
