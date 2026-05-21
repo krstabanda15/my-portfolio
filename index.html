@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Kim Reuben Tabanda's animated programmer portfolio, featuring PawMap Mobile and skills in Python, JavaScript, TypeScript, React, PHP, and Supabase."
+    />
+    <title>Kim Reuben Tabanda | My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="site-glow site-glow-one"></div>
+    <div class="site-glow site-glow-two"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top glass-nav">
+      <div class="container">
+        <a class="navbar-brand brand-lockup" href="#home" aria-label="Portfolio home">
+          <span class="brand-mark" data-logo-mark>KR</span>
+          <span>Kim Reuben</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNav"
+          aria-controls="mainNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+            <a class="nav-link" href="#work">Work</a>
+            <a class="nav-link" href="#stack">Stack</a>
+            <a class="nav-link" href="#journey">Journey</a>
+            <a class="nav-link" href="#contact">Contact</a>
+            <a class="btn btn-sm btn-outline-light admin-pill" href="#admin">Admin</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main id="public-view">
+      <section id="home" class="hero-section">
+        <div class="container">
+          <div class="row min-vh-100 align-items-center g-5">
+            <div class="col-lg-7">
+              <div class="hero-copy reveal-up">
+                <p class="eyebrow">Programmer Portfolio</p>
+                <h1 data-bind="name"></h1>
+                <p class="hero-title" data-bind="title"></p>
+                <p class="hero-lead" data-bind="headline"></p>
+                <div class="hero-actions">
+                  <a class="btn btn-primary btn-lg" data-link="email">Hire me</a>
+                  <a class="btn btn-outline-light btn-lg" data-link="linkedin" target="_blank" rel="noreferrer">
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5">
+              <div class="portrait-stage reveal-up delay-1">
+                <div class="code-card floating-card">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                  <pre>const developer = {
+  name: "Kim",
+  focus: "useful apps",
+  status: "open to work"
+};</pre>
+                </div>
+                <img class="hero-avatar" src="assets/images/mafes.png" alt="Kim Reuben Tabanda portrait" />
+                <div class="status-orbit">
+                  <span>Available</span>
+                  <strong>Junior Developer</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-band">
+        <div class="container">
+          <div class="row g-3" id="stats"></div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="container">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-5 reveal-up">
+              <p class="eyebrow">About</p>
+              <h2 class="section-title">I turn ideas into working screens, flows, and data-backed features.</h2>
+            </div>
+            <div class="col-lg-7 reveal-up delay-1">
+              <p class="about-copy" data-bind="about"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work" class="section-block work-section">
+        <div class="container">
+          <div class="section-heading reveal-up">
+            <p class="eyebrow">Selected Work</p>
+            <h2 class="section-title">Projects with real product thinking.</h2>
+          </div>
+          <div class="row g-4 project-grid" id="projects-list"></div>
+        </div>
+      </section>
+
+      <section id="stack" class="section-block stack-section">
+        <div class="container">
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-4 reveal-up">
+              <p class="eyebrow">Technical Stack</p>
+              <h2 class="section-title">A practical toolkit for web, mobile, and backend work.</h2>
+            </div>
+            <div class="col-lg-8 reveal-up delay-1">
+              <div class="skill-cloud" id="skills-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="journey" class="section-block">
+        <div class="container">
+          <div class="row g-4">
+            <div class="col-lg-6 reveal-up">
+              <div class="glass-panel h-100">
+                <p class="eyebrow">Experience</p>
+                <div class="timeline" id="experience-list"></div>
+              </div>
+            </div>
+            <div class="col-lg-6 reveal-up delay-1">
+              <div class="glass-panel h-100">
+                <p class="eyebrow">Education</p>
+                <div class="timeline" id="education-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section-block contact-section">
+        <div class="container">
+          <div class="contact-card reveal-up">
+            <div>
+              <p class="eyebrow">Let's build</p>
+              <h2>Open to programmer roles and project opportunities.</h2>
+              <p data-bind="email"></p>
+            </div>
+            <div class="contact-actions">
+              <a class="btn btn-primary btn-lg" data-link="email">Email me</a>
+              <a class="btn btn-outline-light btn-lg" data-link="linkedin" target="_blank" rel="noreferrer">
+                View LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="container">
+          <div class="footer-grid">
+            <div>
+              <a class="brand-lockup footer-brand" href="#home" aria-label="Portfolio home">
+                <span class="brand-mark" data-logo-mark>KR</span>
+                <span>Kim Reuben Tabanda</span>
+              </a>
+              <p>Programmer building practical web, mobile, and data-backed applications.</p>
+            </div>
+            <nav class="footer-links" aria-label="Footer navigation">
+              <a href="#work">Work</a>
+              <a href="#stack">Stack</a>
+              <a href="#journey">Journey</a>
+              <a href="#contact">Contact</a>
+            </nav>
+            <div class="footer-contact">
+              <a data-link="email" data-bind="email"></a>
+              <a data-link="linkedin" target="_blank" rel="noreferrer">LinkedIn</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <span>&copy; <span id="footer-year"></span> Kim Reuben Tabanda</span>
+            <a href="#admin">Admin</a>
+          </div>
+        </div>
+      </footer>
+
+      <a class="back-to-top" href="#home" aria-label="Back to top" title="Back to top">
+        <span aria-hidden="true">&uarr;</span>
+      </a>
+    </main>
+
+    <main id="admin-view" class="admin-view" hidden>
+      <section class="container admin-shell">
+        <div class="admin-header">
+          <div>
+            <p class="eyebrow">Private editor</p>
+            <h1>Portfolio Admin</h1>
+          </div>
+          <a class="btn btn-outline-light" href="#home">Public view</a>
+        </div>
+
+        <form id="login-form" class="admin-card">
+          <h2>Admin login</h2>
+          <p class="muted">Enter your admin password to edit this portfolio on this device.</p>
+          <label>
+            Admin email
+            <input type="email" id="admin-email" autocomplete="username" />
+          </label>
+          <label>
+            Admin password
+            <input type="password" id="admin-password" autocomplete="current-password" required />
+          </label>
+          <button class="btn btn-primary" type="submit">Login</button>
+          <p class="hint" id="login-hint">
+            Default local passcode: <strong>change-me-2026</strong>. Use Supabase Auth before publishing.
+          </p>
+        </form>
+
+        <form id="editor-form" class="editor-grid" hidden>
+          <section class="admin-card">
+            <div class="section-heading compact">
+              <h2>Profile</h2>
+              <button class="text-button" type="button" id="logout-button">Log out</button>
+            </div>
+            <label>Name<input name="name" required /></label>
+            <label>Username<input name="username" /></label>
+            <label>Professional title<input name="title" /></label>
+            <label>Headline<textarea name="headline" rows="3"></textarea></label>
+            <label>About<textarea name="about" rows="7"></textarea></label>
+            <label>Location<input name="location" /></label>
+            <label>Availability<input name="availability" /></label>
+            <label>Email<input name="email" type="email" /></label>
+            <label>GitHub URL<input name="github" type="url" /></label>
+            <label>LinkedIn URL<input name="linkedin" type="url" /></label>
+            <div class="logo-editor">
+              <span class="field-title">Navbar logo</span>
+              <div class="logo-preview" id="logo-preview" aria-label="Current logo preview">KR</div>
+              <label>
+                Upload logo
+                <input name="logoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" />
+              </label>
+              <button class="btn btn-outline-light btn-sm" type="button" id="remove-logo-button">
+                Use KR text logo
+              </button>
+              <p class="hint">Use a square PNG, JPG, WebP, or SVG. It will be resized before saving.</p>
+            </div>
+          </section>
+
+          <section class="admin-card">
+            <h2>Resume Data</h2>
+            <label>Stats <span>One per line, format: label | value</span><textarea name="stats" rows="5"></textarea></label>
+            <label>Skills <span>Separate with commas</span><textarea name="skills" rows="5"></textarea></label>
+            <label>Projects <span>name | type | status | description | tech list | optional link</span><textarea name="projects" rows="12"></textarea></label>
+            <label>Project links <span>One per line: project name | website, Vercel, GitHub, or demo URL</span><textarea name="projectLinks" rows="5"></textarea></label>
+            <label>Experience <span>One per line: role | period | description</span><textarea name="experience" rows="7"></textarea></label>
+            <label>Education <span>One per line: course | period | school/details</span><textarea name="education" rows="5"></textarea></label>
+            <div class="editor-actions">
+              <button class="btn btn-primary" type="submit">Save changes</button>
+              <button class="btn btn-outline-light" type="button" id="reset-button">Reset defaults</button>
+            </div>
+            <p id="save-status" class="hint" role="status"></p>
+          </section>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
