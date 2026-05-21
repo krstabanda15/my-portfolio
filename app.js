@@ -140,9 +140,19 @@ async function loadRemoteContent() {
     .eq("id", SUPABASE_CONFIG.rowId)
     .single();
 
+  console.log("LOAD DATA:", data);
+  console.log("LOAD ERROR:", error);
+
   if (!error && data?.content) {
     content = normalizeContent(data.content);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
+
+    console.log("FINAL CONTENT:", content);
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(content)
+    );
+
     renderPublicView();
   }
 }
