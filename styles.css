@@ -201,6 +201,11 @@ img {
   font-weight: 800;
 }
 
+.btn .bi {
+  font-size: 1.05em;
+  line-height: 1;
+}
+
 .btn-primary {
   border: 0;
   background: linear-gradient(135deg, var(--teal), var(--blue));
