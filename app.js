@@ -3,6 +3,8 @@
 const STORAGE_KEY = "kim-reuben-tabanda-portfolio-content-v2";
 const SESSION_KEY = "kim-reuben-tabanda-portfolio-admin";
 const ADMIN_PASSCODE = "change-me-2026";
+const ADMIN_IDLE_LIMIT_MS = 15 * 60 * 1000;
+const ADMIN_IDLE_WARNING_MS = 60 * 1000;
 const SUPABASE_CONFIG = {
   url: "https://ufcchadmnsgzmpzrvjpd.supabase.co",
   anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmY2NoYWRtbnNnem1wenJ2anBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMjIyOTYsImV4cCI6MjA5NDg5ODI5Nn0.uWP2eq1gaoGDzsQNzdwWuJEWLZaBv-w8LskdB7jTsTY",
@@ -100,6 +102,10 @@ const defaultContent = {
 let content = loadContent();
 let supabaseClient = null;
 let pendingLogoImage = null;
+let idleWarningTimer = null;
+let idleLogoutTimer = null;
+let idleCountdownTimer = null;
+let idleLogoutAt = 0;
 
 function normalizeContent(rawContent) {
   return {
@@ -361,6 +367,80 @@ function isLoggedIn() {
   return sessionStorage.getItem(SESSION_KEY) === "true";
 }
 
+function getIdleWarning() {
+  return document.getElementById("idle-warning");
+}
+
+function setIdleWarningVisible(isVisible) {
+  const warning = getIdleWarning();
+  if (!warning) return;
+
+  warning.hidden = !isVisible;
+}
+
+function updateIdleCountdown() {
+  const countdown = document.getElementById("idle-countdown");
+  if (!countdown) return;
+
+  const secondsLeft = Math.max(0, Math.ceil((idleLogoutAt - Date.now()) / 1000));
+  countdown.textContent = String(secondsLeft);
+}
+
+function clearIdleTimers() {
+  window.clearTimeout(idleWarningTimer);
+  window.clearTimeout(idleLogoutTimer);
+  window.clearInterval(idleCountdownTimer);
+  idleWarningTimer = null;
+  idleLogoutTimer = null;
+  idleCountdownTimer = null;
+  idleLogoutAt = 0;
+}
+
+async function logoutAdmin(message = "") {
+  clearIdleTimers();
+  setIdleWarningVisible(false);
+
+  if (supabaseClient) {
+    await supabaseClient.auth.signOut();
+  }
+
+  sessionStorage.removeItem(SESSION_KEY);
+  syncAdminState();
+
+  const loginHint = document.getElementById("login-hint");
+  if (message && loginHint) {
+    loginHint.textContent = message;
+  }
+}
+
+function showIdleWarning() {
+  if (!isLoggedIn()) return;
+
+  idleLogoutAt = Date.now() + ADMIN_IDLE_WARNING_MS;
+  setIdleWarningVisible(true);
+  updateIdleCountdown();
+
+  window.clearInterval(idleCountdownTimer);
+  idleCountdownTimer = window.setInterval(updateIdleCountdown, 1000);
+
+  window.clearTimeout(idleLogoutTimer);
+  idleLogoutTimer = window.setTimeout(() => {
+    logoutAdmin("You were logged out after no response to the activity check.");
+  }, ADMIN_IDLE_WARNING_MS);
+}
+
+function resetAdminIdleTimer() {
+  if (!isLoggedIn()) {
+    clearIdleTimers();
+    setIdleWarningVisible(false);
+    return;
+  }
+
+  clearIdleTimers();
+  setIdleWarningVisible(false);
+  idleWarningTimer = window.setTimeout(showIdleWarning, ADMIN_IDLE_LIMIT_MS);
+}
+
 function syncAdminState() {
   const unlocked = isLoggedIn();
   document.getElementById("login-form").hidden = unlocked;
@@ -368,6 +448,10 @@ function syncAdminState() {
 
   if (unlocked) {
     fillEditor();
+    resetAdminIdleTimer();
+  } else {
+    clearIdleTimers();
+    setIdleWarningVisible(false);
   }
 }
 
@@ -628,13 +712,10 @@ document.getElementById("remove-logo-button").addEventListener("click", () => {
 });
 
 document.getElementById("logout-button").addEventListener("click", async () => {
-  if (supabaseClient) {
-    await supabaseClient.auth.signOut();
-  }
-
-  sessionStorage.removeItem(SESSION_KEY);
-  syncAdminState();
+  await logoutAdmin();
 });
+
+document.getElementById("stay-logged-in-button").addEventListener("click", resetAdminIdleTimer);
 
 document.getElementById("reset-button").addEventListener("click", async () => {
   await saveContent(structuredClone(defaultContent));
@@ -644,6 +725,17 @@ document.getElementById("reset-button").addEventListener("click", async () => {
 
 window.addEventListener("hashchange", route);
 window.addEventListener("scroll", syncBackToTop, { passive: true });
+["click", "keydown", "input", "touchstart"].forEach((eventName) => {
+  document.addEventListener(
+    eventName,
+    (event) => {
+      if (!isLoggedIn() || window.location.hash !== "#admin") return;
+      if (event.target instanceof Element && event.target.closest("#idle-warning")) return;
+      resetAdminIdleTimer();
+    },
+    { passive: true }
+  );
+});
 document.getElementById("footer-year").textContent = new Date().getFullYear();
 supabaseClient = initSupabase();
 if (supabaseClient) {
@@ -653,3 +745,13 @@ if (supabaseClient) {
 renderPublicView();
 route();
 syncBackToTop();
+document.querySelectorAll("#mainNav .nav-link, #mainNav .admin-pill").forEach((link) => {
+  link.addEventListener("click", () => {
+    const nav = document.getElementById("mainNav");
+
+    if (nav.classList.contains("show")) {
+      const collapse = bootstrap.Collapse.getOrCreateInstance(nav);
+      collapse.hide();
+    }
+  });
+});

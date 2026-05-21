@@ -22,7 +22,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=idle-logout-1" />
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script defer src="app.js"></script>
@@ -31,7 +31,7 @@
     <div class="site-glow site-glow-one"></div>
     <div class="site-glow site-glow-two"></div>
 
-    <nav class="navbar navbar-expand-lg fixed-top glass-nav">
+    <nav class="navbar navbar-expand-lg sticky-top glass-nav">
       <div class="container">
         <a class="navbar-brand brand-lockup" href="#home" aria-label="Portfolio home">
           <span class="brand-mark" data-logo-mark>KR</span>
@@ -222,6 +222,16 @@
           </div>
           <a class="btn btn-outline-light" href="#home">Public view</a>
         </div>
+
+        <section class="admin-card idle-warning" id="idle-warning" hidden aria-live="polite">
+          <div>
+            <h2>Still active?</h2>
+            <p class="muted">
+              No admin activity detected. You will be logged out in <span id="idle-countdown">60</span> seconds.
+            </p>
+          </div>
+          <button class="btn btn-primary" type="button" id="stay-logged-in-button">Stay logged in</button>
+        </section>
 
         <form id="login-form" class="admin-card">
           <h2>Admin login</h2>
