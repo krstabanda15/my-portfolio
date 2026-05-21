@@ -102,25 +102,15 @@ let supabaseClient = null;
 let pendingLogoImage = null;
 
 function normalizeContent(rawContent) {
-  const nextContent = { ...structuredClone(defaultContent), ...rawContent };
-  const hasOldEducation =
-    !Array.isArray(nextContent.education) ||
-    nextContent.education.some((item) => item.role === "Programming and Software Development");
-  const projects = Array.isArray(nextContent.projects) ? nextContent.projects : [];
-  const missingDefaultProjects = defaultContent.projects.filter(
-    (defaultProject) =>
-      !projects.some((project) => project.name.toLowerCase() === defaultProject.name.toLowerCase()),
-  );
-
-  if (hasOldEducation) {
-    nextContent.education = structuredClone(defaultContent.education);
-  }
-
-  if (missingDefaultProjects.length > 0) {
-    nextContent.projects = [...projects, ...structuredClone(missingDefaultProjects)];
-  }
-
-  return nextContent;
+  return {
+    ...structuredClone(defaultContent),
+    ...rawContent,
+    stats: Array.isArray(rawContent?.stats) ? rawContent.stats : defaultContent.stats,
+    skills: Array.isArray(rawContent?.skills) ? rawContent.skills : defaultContent.skills,
+    projects: Array.isArray(rawContent?.projects) ? rawContent.projects : defaultContent.projects,
+    experience: Array.isArray(rawContent?.experience) ? rawContent.experience : defaultContent.experience,
+    education: Array.isArray(rawContent?.education) ? rawContent.education : defaultContent.education,
+  };
 }
 
 function initSupabase() {
