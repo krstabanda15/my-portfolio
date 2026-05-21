@@ -617,7 +617,7 @@ img {
 
 .site-footer {
   position: relative;
-  padding: 2.4rem 0 1.4rem;
+  padding: 1.4rem 0;
   border-top: 1px solid var(--line);
   background:
     radial-gradient(circle at 14% 0%, rgba(40, 215, 181, 0.12), transparent 24rem),
@@ -626,75 +626,46 @@ img {
   backdrop-filter: blur(18px);
 }
 
-.footer-grid {
-  display: grid;
-  grid-template-columns: minmax(280px, 1.4fr) minmax(160px, 0.65fr) minmax(240px, 0.9fr);
-  gap: clamp(1.25rem, 4vw, 4rem);
-  align-items: center;
-  padding: 1.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.045);
-}
-
-.footer-brand {
-  margin-bottom: 0.9rem;
-  text-decoration: none;
-}
-
-.footer-intro p {
-  max-width: 360px;
+.footer-simple {
   margin: 0;
   color: var(--muted);
-  font-size: 0.98rem;
-  line-height: 1.6;
-}
-
-.footer-links,
-.footer-contact {
-  display: grid;
-  gap: 0.48rem;
-}
-
-.footer-label {
-  margin-bottom: 0.35rem;
-  color: var(--green);
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.footer-links a,
-.footer-contact a,
-.footer-bottom a {
-  color: var(--muted);
+  font-size: 0.95rem;
   font-weight: 800;
-  text-decoration: none;
-}
-
-.footer-links a:hover,
-.footer-contact a:hover,
-.footer-bottom a:hover {
-  color: var(--green);
-}
-
-.footer-bottom {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
+  display: flex;
   align-items: center;
-  gap: 1.25rem;
-  margin-top: 1rem;
-  padding: 0 1.25rem;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-footer .footer-grid {
+  display: none;
+}
+
+.site-footer .footer-bottom {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
   color: var(--muted);
-  font-size: 0.84rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+.site-footer .footer-bottom span:not(:first-child),
+.site-footer .footer-bottom a {
+  display: none;
+}
+
+.site-footer .footer-bottom::after {
+  content: "Open to web and mobile opportunities";
+  float: right;
 }
 
 .back-to-top {
   position: fixed;
   right: 1.25rem;
-  bottom: 1.7rem;
+  bottom: 4.75rem;
   z-index: 20;
   display: grid;
   width: 48px;
@@ -946,18 +917,6 @@ textarea {
     grid-template-columns: 1fr;
   }
 
-  .footer-grid {
-    align-items: start;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .footer-intro {
-    grid-column: 1 / -1;
-  }
-
-  .footer-bottom {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 767px) {
@@ -1002,16 +961,16 @@ textarea {
     flex-direction: column;
   }
 
-  .footer-grid {
-    grid-template-columns: 1fr;
-    padding: 1rem;
+  .footer-simple {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.35rem;
   }
 
-  .footer-intro {
-    grid-column: auto;
+  .site-footer .footer-bottom::after {
+    display: block;
+    float: none;
+    margin-top: 0.35rem;
   }
 
-  .footer-bottom {
-    padding: 0 0.25rem;
-  }
 }

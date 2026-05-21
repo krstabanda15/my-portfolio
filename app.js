@@ -22,7 +22,7 @@ const defaultContent = {
   location: "Philippines",
   availability: "Open to programmer roles",
   email: "k.tabanda29@gmail.com",
-  github: "",
+  github: "https://github.com/krstabanda15",
   linkedin: "https://www.linkedin.com/in/kim-reuben-tabanda-90872640b/",
   stats: [
     { label: "Recent project", value: "PawMap Mobile" },
