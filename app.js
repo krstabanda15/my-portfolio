@@ -163,15 +163,25 @@ async function saveContent(nextContent) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
 
   if (supabaseClient) {
-    const { error } = await supabaseClient.from(SUPABASE_CONFIG.table).upsert({
-      id: SUPABASE_CONFIG.rowId,
-      content,
-      updated_at: new Date().toISOString(),
-    });
+    const { data: sessionData } = await supabaseClient.auth.getSession();
+    console.log("SUPABASE SESSION:", sessionData.session);
 
-    if (error) {
-      throw error;
-    }
+    const { data, error } = await supabaseClient
+      .from(SUPABASE_CONFIG.table)
+      .upsert(
+        {
+          id: SUPABASE_CONFIG.rowId,
+          content,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: "id" }
+      )
+      .select();
+
+    console.log("SUPABASE SAVE DATA:", data);
+    console.log("SUPABASE SAVE ERROR:", error);
+
+    if (error) throw error;
   }
 
   renderPublicView();
