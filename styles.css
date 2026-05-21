@@ -617,34 +617,52 @@ img {
 
 .site-footer {
   position: relative;
-  padding: 3rem 0 2rem;
+  padding: 2.4rem 0 1.4rem;
   border-top: 1px solid var(--line);
-  background: rgba(4, 6, 12, 0.62);
+  background:
+    radial-gradient(circle at 14% 0%, rgba(40, 215, 181, 0.12), transparent 24rem),
+    radial-gradient(circle at 92% 18%, rgba(255, 111, 174, 0.1), transparent 22rem),
+    rgba(4, 6, 12, 0.78);
   backdrop-filter: blur(18px);
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: minmax(240px, 1.5fr) 1fr 1fr;
-  gap: 2rem;
-  align-items: start;
+  grid-template-columns: minmax(280px, 1.4fr) minmax(160px, 0.65fr) minmax(240px, 0.9fr);
+  gap: clamp(1.25rem, 4vw, 4rem);
+  align-items: center;
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.045);
 }
 
 .footer-brand {
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
   text-decoration: none;
 }
 
-.footer-grid p {
-  max-width: 420px;
+.footer-intro p {
+  max-width: 360px;
   margin: 0;
   color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
 }
 
 .footer-links,
 .footer-contact {
   display: grid;
-  gap: 0.65rem;
+  gap: 0.48rem;
+}
+
+.footer-label {
+  margin-bottom: 0.35rem;
+  color: var(--green);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .footer-links a,
@@ -662,22 +680,21 @@ img {
 }
 
 .footer-bottom {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 2.2rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--line);
+  gap: 1.25rem;
+  margin-top: 1rem;
+  padding: 0 1.25rem;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.84rem;
   font-weight: 700;
 }
 
 .back-to-top {
   position: fixed;
   right: 1.25rem;
-  bottom: 1.25rem;
+  bottom: 1.7rem;
   z-index: 20;
   display: grid;
   width: 48px;
@@ -928,6 +945,19 @@ textarea {
   .editor-grid {
     grid-template-columns: 1fr;
   }
+
+  .footer-grid {
+    align-items: start;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-intro {
+    grid-column: 1 / -1;
+  }
+
+  .footer-bottom {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 767px) {
@@ -967,13 +997,21 @@ textarea {
   }
 
   .contact-card,
-  .admin-header,
-  .footer-bottom {
+  .admin-header {
     align-items: flex-start;
     flex-direction: column;
   }
 
   .footer-grid {
     grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .footer-intro {
+    grid-column: auto;
+  }
+
+  .footer-bottom {
+    padding: 0 0.25rem;
   }
 }
