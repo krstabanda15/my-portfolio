@@ -26,6 +26,7 @@ const defaultContent = {
   email: "k.tabanda29@gmail.com",
   github: "https://github.com/krstabanda15",
   linkedin: "https://www.linkedin.com/in/kim-reuben-tabanda-90872640b/",
+  vercel: "https://vercel.com/kim-reuben-tabanda-s-projects",
   stats: [
     { label: "Recent project", value: "PawMap Mobile" },
     { label: "Frontend", value: "React" },
@@ -217,6 +218,10 @@ function setLinks() {
 
   document.querySelectorAll("[data-link='linkedin']").forEach((link) => {
     link.href = content.linkedin || "#";
+  });
+
+  document.querySelectorAll("[data-link='vercel']").forEach((link) => {
+    link.href = content.vercel || "#";
   });
 }
 
@@ -469,6 +474,7 @@ function fillEditor() {
     "email",
     "github",
     "linkedin",
+    "vercel",
   ];
 
   fields.forEach((field) => {
@@ -668,6 +674,7 @@ document.getElementById("editor-form").addEventListener("submit", async (event) 
     email: form.elements.email.value.trim(),
     github: form.elements.github.value.trim(),
     linkedin: form.elements.linkedin.value.trim(),
+    vercel: form.elements.vercel.value.trim(),
     logoImage: pendingLogoImage === null ? content.logoImage : pendingLogoImage,
     stats: parseStats(form.elements.stats.value),
     skills: parseSkills(form.elements.skills.value),
