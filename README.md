@@ -20,4 +20,6 @@ Change `ADMIN_PASSCODE` in `app.js` before publishing.
 
 The editor saves to this browser's `localStorage` by default. That means it updates the public view on the same browser immediately.
 
-For real public updates across all visitors, create the Supabase table using `supabase/schema.sql`, add your Supabase anon key in `app.js`, then sign in through `#admin` using your Supabase Auth email and password.
+All seven projects and their links are bundled in `defaultContent.projects` in `app.js`; no Supabase connection is used. To update projects for every visitor, edit those defaults and redeploy the static site.
+
+Existing browser data is migrated once: profile edits are preserved and projects are replaced with the seven bundled entries. Later admin edits persist on this browser. The local passcode is a convenience lock, not server authentication.

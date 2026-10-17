@@ -1,17 +1,10 @@
 "use strict";
 
-const STORAGE_KEY = "kim-reuben-tabanda-portfolio-content-v2";
+const STORAGE_KEY = "kim-reuben-tabanda-portfolio-content-v3";
 const SESSION_KEY = "kim-reuben-tabanda-portfolio-admin";
 const ADMIN_PASSCODE = "change-me-2026";
 const ADMIN_IDLE_LIMIT_MS = 15 * 60 * 1000;
 const ADMIN_IDLE_WARNING_MS = 60 * 1000;
-const SUPABASE_CONFIG = {
-  url: "https://ufcchadmnsgzmpzrvjpd.supabase.co",
-  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmY2NoYWRtbnNnem1wenJ2anBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMjIyOTYsImV4cCI6MjA5NDg5ODI5Nn0.uWP2eq1gaoGDzsQNzdwWuJEWLZaBv-w8LskdB7jTsTY",
-  table: "portfolio_content",
-  rowId: "public",
-};
-
 const defaultContent = {
   name: "Kim Reuben Tabanda",
   username: "@kimreuben",
@@ -58,7 +51,7 @@ const defaultContent = {
       link: "https://pawmapph.vercel.app",
     },
     {
-      name: "Editable Programmer Portfolio",
+      name: "My Portfolio",
       type: "Website",
       description:
         "A resume-style portfolio with a private admin editor for updating profile, projects, skills, and experience without editing the HTML directly.",
@@ -68,12 +61,66 @@ const defaultContent = {
     },
     {
       name: "KRST Mobile Website",
-      type: "Mobile Website",
+      type: "Web Application",
       description:
         "A recent mobile-friendly website project focused on responsive layouts, clean presentation, and accessible web delivery.",
       tech: ["HTML", "CSS", "JavaScript", "Vercel"],
       status: "Recent project",
       link: "https://krst.vercel.app",
+    },
+    {
+      "name": "Efetebe Aqua and Agricultural Corp Payroll System",
+      "type": "Web Application",
+      "status": "Recent Project",
+      "description": "A responsive payroll system for employee records, salary computation, and payroll management, accessible on desktop and mobile browsers.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Bootstrap",
+        "Vercel"
+      ],
+      "link": "https://efetebeaquaandagriculturalcorp.vercel.app"
+    },
+    {
+      "name": "PTA Cybersecurity Awareness Website",
+      "type": "Web Application",
+      "status": "Recent Project",
+      "description": "A web-based cybersecurity awareness platform promoting safe online practices through the ?Pause, Think, Act? framework with an accessible and responsive design.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Bootstrap",
+        "Netlify"
+      ],
+      "link": "https://ptacybersite.netlify.app"
+    },
+    {
+      "name": "TabandaTato Game",
+      "type": "Web Game",
+      "status": "Recent Project",
+      "description": "A browser-based interactive game project focused on engaging gameplay, user interaction, and responsive web accessibility.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "GitHub Pages"
+      ],
+      "link": "https://krstabanda15.github.io/TabandaTato-game"
+    },
+    {
+      "name": "KADATech",
+      "type": "E-Commerce Website",
+      "status": "Recent Project",
+      "description": "A modern and responsive front-end e-commerce website for tech and gaming products, focused on clean UI/UX, easy product browsing, and a user-friendly shopping experience.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Vercel"
+      ],
+      "link": "https://kadatech.vercel.app/"
     },
   ],
   experience: [
@@ -101,7 +148,6 @@ const defaultContent = {
 };
 
 let content = loadContent();
-let supabaseClient = null;
 let pendingLogoImage = null;
 let idleWarningTimer = null;
 let idleLogoutTimer = null;
@@ -120,77 +166,25 @@ function normalizeContent(rawContent) {
   };
 }
 
-function initSupabase() {
-  if (!SUPABASE_CONFIG.url || !SUPABASE_CONFIG.anonKey || !window.supabase) {
-    return null;
-  }
-
-  return window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
-}
-
-async function loadRemoteContent() {
-  if (!supabaseClient) return;
-
-  const { data, error } = await supabaseClient
-    .from(SUPABASE_CONFIG.table)
-    .select("content")
-    .eq("id", SUPABASE_CONFIG.rowId)
-    .single();
-
-  console.log("LOAD DATA:", data);
-  console.log("LOAD ERROR:", error);
-
-  if (!error && data?.content) {
-    content = normalizeContent(data.content);
-
-    console.log("FINAL CONTENT:", content);
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(content)
-    );
-
-    renderPublicView();
-  }
-}
-
 function loadContent() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (!saved) return normalizeContent({});
-
   try {
-    return normalizeContent(JSON.parse(saved));
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return normalizeContent(JSON.parse(saved));
+
+    // Preserve previous profile edits and migrate the project list once.
+    const previous = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v2");
+    const migrated = normalizeContent(previous ? JSON.parse(previous) : {});
+    migrated.projects = structuredClone(defaultContent.projects);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+    return migrated;
   } catch {
     return normalizeContent({});
   }
 }
 
 async function saveContent(nextContent) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(nextContent));
   content = nextContent;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
-
-  if (supabaseClient) {
-    const { data: sessionData } = await supabaseClient.auth.getSession();
-    console.log("SUPABASE SESSION:", sessionData.session);
-
-    const { data, error } = await supabaseClient
-      .from(SUPABASE_CONFIG.table)
-      .upsert(
-        {
-          id: SUPABASE_CONFIG.rowId,
-          content,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: "id" }
-      )
-      .select();
-
-    console.log("SUPABASE SAVE DATA:", data);
-    console.log("SUPABASE SAVE ERROR:", error);
-
-    if (error) throw error;
-  }
-
   renderPublicView();
 }
 
@@ -405,10 +399,6 @@ async function logoutAdmin(message = "") {
   clearIdleTimers();
   setIdleWarningVisible(false);
 
-  if (supabaseClient) {
-    await supabaseClient.auth.signOut();
-  }
-
   sessionStorage.removeItem(SESSION_KEY);
   syncAdminState();
 
@@ -621,27 +611,7 @@ function parseTimeline(value) {
 
 document.getElementById("login-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const email = document.getElementById("admin-email");
   const input = document.getElementById("admin-password");
-
-  if (supabaseClient) {
-    const { error } = await supabaseClient.auth.signInWithPassword({
-      email: email.value.trim(),
-      password: input.value,
-    });
-
-    if (!error) {
-      sessionStorage.setItem(SESSION_KEY, "true");
-      input.value = "";
-      syncAdminState();
-      return;
-    }
-
-    input.setCustomValidity(error.message);
-    input.reportValidity();
-    input.setCustomValidity("");
-    return;
-  }
 
   if (input.value === ADMIN_PASSCODE) {
     sessionStorage.setItem(SESSION_KEY, "true");
@@ -688,11 +658,9 @@ document.getElementById("editor-form").addEventListener("submit", async (event) 
 
   try {
     await saveContent(nextContent);
-    status.textContent = supabaseClient
-      ? "Saved to Supabase. Public visitors will see the updates."
-      : "Saved locally. Open Public view to see the updates on this browser.";
+    status.textContent = "Saved locally. Open Public view to see the updates on this browser.";
   } catch (error) {
-    status.textContent = `Saved locally, but remote save failed: ${error.message}`;
+    status.textContent = `Could not save locally: ${error.message}`;
   }
 });
 
@@ -705,7 +673,7 @@ document.getElementById("editor-form").elements.logoUpload.addEventListener("cha
   try {
     pendingLogoImage = await resizeLogoImage(file);
     renderLogoPreview(pendingLogoImage);
-    status.textContent = "Logo ready. Click Save changes to publish it.";
+    status.textContent = "Logo ready. Click Save changes to save it on this browser.";
   } catch (error) {
     status.textContent = error.message;
   }
@@ -715,7 +683,7 @@ document.getElementById("remove-logo-button").addEventListener("click", () => {
   pendingLogoImage = "";
   document.getElementById("editor-form").elements.logoUpload.value = "";
   renderLogoPreview("");
-  document.getElementById("save-status").textContent = "Text logo ready. Click Save changes to publish it.";
+  document.getElementById("save-status").textContent = "Text logo ready. Click Save changes to save it on this browser.";
 });
 
 document.getElementById("logout-button").addEventListener("click", async () => {
@@ -744,11 +712,6 @@ window.addEventListener("scroll", syncBackToTop, { passive: true });
   );
 });
 document.getElementById("footer-year").textContent = new Date().getFullYear();
-supabaseClient = initSupabase();
-if (supabaseClient) {
-  document.getElementById("login-hint").textContent = "Sign in with your admin email and password.";
-  loadRemoteContent();
-}
 renderPublicView();
 route();
 syncBackToTop();
