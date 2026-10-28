@@ -1,6 +1,6 @@
 "use strict";
 
-const STORAGE_KEY = "kim-reuben-tabanda-portfolio-content-v3";
+const STORAGE_KEY = "kim-reuben-tabanda-portfolio-content-v8";
 const SESSION_KEY = "kim-reuben-tabanda-portfolio-admin";
 const ADMIN_PASSCODE = "change-me-2026";
 const ADMIN_IDLE_LIMIT_MS = 15 * 60 * 1000;
@@ -26,26 +26,18 @@ const defaultContent = {
     { label: "Backend/data", value: "Supabase" },
     { label: "Main languages", value: "Python + JS" },
   ],
-  skills: [
-    "Python",
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "TypeScript",
-    "React",
-    "PHP",
-    "Supabase",
-    "Mobile UI",
-    "REST APIs",
-    "Database Design",
-    "Git",
-  ],
+  skills: {
+    Languages: ["Python", "JavaScript", "TypeScript", "PHP"],
+    "Web & Mobile": ["HTML", "CSS", "React", "React Native", "Expo", "Mobile UI"],
+    "Backend & Data": ["Supabase", "REST APIs", "Database Design"],
+    Tools: ["Git"],
+  },
   projects: [
     {
       name: "PawMap Mobile Rescue App",
       type: "Mobile App",
       description:
-        "A mobile rescue app for submitting reports, monitoring case status, and helping organize information for rescue workflows.",
+        "A mobile rescue-reporting app for submitting cases, tracking progress, and keeping rescue information organized. My work covered app screens, navigation, data handling, and user-facing workflows using React Native, Expo, TypeScript, and Supabase.",
       tech: ["React Native", "Expo", "TypeScript", "Supabase"],
       status: "Recent project",
       link: "https://pawmapph.vercel.app",
@@ -125,24 +117,54 @@ const defaultContent = {
   ],
   experience: [
     {
-      role: "Programmer / Project Developer",
-      period: "Recent",
-      description:
-        "Built PawMap Mobile rescue app features across screens, routing, data handling, and user-facing workflows.",
-    },
-    {
-      role: "Web and Software Development Practice",
+      role: "Independent Software Projects",
       period: "Ongoing",
       description:
-        "Building practice and portfolio projects with Python, PHP, React, TypeScript, JavaScript, HTML, CSS, and Supabase.",
+        "Building portfolio applications, including PawMap Mobile, using React Native, Expo, TypeScript, Supabase, and web technologies.",
+    },
+    {
+      role: "Technical Service Representative — Concentrix",
+      period: "December 07, 2022 – May 20, 2025",
+      description:
+        "Supported home internet, digital cable, and home phone services. Diagnosed connectivity and gateway issues, guided customers through modem and router setup, and used diagnostic and CRM tools to investigate service problems.",
+    },
+    {
+      role: "Technical and Sales Representative — Teleperformance",
+      period: "June 8, 2022 – November 26, 2022",
+      description:
+        "Provided technical support for SiriusXM subscribers, troubleshooting hardware, activation, connectivity, and mobile streaming issues while assisting with sales and customer accounts.",
+    },
+    {
+      role: "Customer Service Representative — iQor",
+      period: "April 22–May 15, 2022",
+      description:
+        "Supported the 1-800-Flowers portfolio by phone, chat, and email. Helped with orders and deliveries, resolved customer concerns, and processed refunds, exchanges, and order changes.",
+    },
+    {
+      role: "Online ESL Teacher — 51Talk",
+      period: "May 2018–April 2022",
+      description:
+        "Taught English to Chinese students using lessons and activities for speaking, writing, reading, and listening. Assessed progress and gave feedback on assignments.",
     },
   ],
   education: [
     {
       role: "Bachelor of Science in Information Technology",
-      period: "Graduate",
+      period: "Fourth-year undergraduate",
       description:
-        "University of Negros Occidental - Recoletos. Focused on web development, application programming, databases, and project implementation.",
+        "Currently pursuing the BSIT program at the University of Negros Occidental - Recoletos.",
+    },
+    {
+      role: "Secondary — High School Diploma",
+      period: "2014–2015",
+      description:
+        "Dr. Vicente F. Gustilo Memorial National High School. Cadiz City, Negros Occidental.",
+    },
+    {
+      role: "Primary — Elementary Diploma",
+      period: "",
+      description:
+        "Cadiz East Elementary School - 1. Cadiz City.",
     },
   ],
 };
@@ -155,11 +177,18 @@ let idleCountdownTimer = null;
 let idleLogoutAt = 0;
 
 function normalizeContent(rawContent) {
+  const storedSkills = rawContent?.skills;
+  const skills = Array.isArray(storedSkills)
+    ? { "Core Skills": storedSkills }
+    : storedSkills && typeof storedSkills === "object"
+      ? storedSkills
+      : defaultContent.skills;
+
   return {
     ...structuredClone(defaultContent),
     ...rawContent,
     stats: Array.isArray(rawContent?.stats) ? rawContent.stats : defaultContent.stats,
-    skills: Array.isArray(rawContent?.skills) ? rawContent.skills : defaultContent.skills,
+    skills,
     projects: Array.isArray(rawContent?.projects) ? rawContent.projects : defaultContent.projects,
     experience: Array.isArray(rawContent?.experience) ? rawContent.experience : defaultContent.experience,
     education: Array.isArray(rawContent?.education) ? rawContent.education : defaultContent.education,
@@ -171,10 +200,21 @@ function loadContent() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) return normalizeContent(JSON.parse(saved));
 
-    // Preserve previous profile edits and migrate the project list once.
-    const previous = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v2");
+    // Preserve profile edits while updating corrected timeline data.
+    const previousV7 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v7");
+    const previousV6 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v6");
+    const previousV5 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v5");
+    const previousV4 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v4");
+    const previous = previousV7 || previousV6 || previousV5 || previousV4 ||
+      localStorage.getItem("kim-reuben-tabanda-portfolio-content-v3") ||
+      localStorage.getItem("kim-reuben-tabanda-portfolio-content-v2");
     const migrated = normalizeContent(previous ? JSON.parse(previous) : {});
-    migrated.projects = structuredClone(defaultContent.projects);
+    migrated.education = structuredClone(defaultContent.education);
+    migrated.experience = structuredClone(defaultContent.experience);
+    if (!previousV7 && !previousV6 && !previousV5 && !previousV4) {
+      migrated.projects = structuredClone(defaultContent.projects);
+      migrated.skills = structuredClone(defaultContent.skills);
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
     return migrated;
   } catch {
@@ -314,7 +354,15 @@ function renderProjects() {
 
 function renderSkills() {
   const list = document.getElementById("skills-list");
-  list.innerHTML = content.skills.map((skill) => `<span class="skill">${escapeHtml(skill)}</span>`).join("");
+  const groups = Array.isArray(content.skills) ? { "Core Skills": content.skills } : content.skills;
+  list.innerHTML = Object.entries(groups)
+    .map(([category, skills]) => `
+      <section class="skill-group">
+        <h3>${escapeHtml(category)}</h3>
+        <div class="skill-cloud">${(skills || []).map((skill) => `<span class="skill">${escapeHtml(skill)}</span>`).join("")}</div>
+      </section>
+    `)
+    .join("");
 }
 
 function renderTimeline(id, items) {
@@ -324,7 +372,7 @@ function renderTimeline(id, items) {
       (item) => `
         <article class="timeline-item">
           <h3>${escapeHtml(item.role)}</h3>
-          <time>${escapeHtml(item.period)}</time>
+          ${item.period ? `<time>${escapeHtml(item.period)}</time>` : ""}
           <p>${escapeHtml(item.description)}</p>
         </article>
       `,
@@ -472,7 +520,10 @@ function fillEditor() {
   });
 
   form.elements.stats.value = content.stats.map((item) => `${item.label} | ${item.value}`).join("\n");
-  form.elements.skills.value = content.skills.join(", ");
+  const skillGroups = Array.isArray(content.skills) ? { "Core Skills": content.skills } : content.skills;
+  form.elements.skills.value = Object.entries(skillGroups)
+    .map(([category, skills]) => `${category} | ${skills.join(", ")}`)
+    .join("\n");
   form.elements.projects.value = content.projects.map(formatProject).join("\n\n");
   form.elements.projectLinks.value = content.projects
     .filter((project) => project.link)
@@ -544,10 +595,18 @@ function parseStats(value) {
 }
 
 function parseSkills(value) {
-  return value
-    .split(",")
-    .map((skill) => skill.trim())
-    .filter(Boolean);
+  const lines = value.split("\n").map((line) => line.trim()).filter(Boolean);
+  if (!lines.some((line) => line.includes("|"))) {
+    const flatSkills = value.split(",").map((skill) => skill.trim()).filter(Boolean);
+    return { "Core Skills": flatSkills };
+  }
+
+  return Object.fromEntries(
+    lines.map((line) => {
+      const [category = "", skills = ""] = line.split("|");
+      return [category.trim(), skills.split(",").map((skill) => skill.trim()).filter(Boolean)];
+    }).filter(([category]) => category),
+  );
 }
 
 function parseProjects(value) {
@@ -712,6 +771,69 @@ window.addEventListener("scroll", syncBackToTop, { passive: true });
   );
 });
 document.getElementById("footer-year").textContent = new Date().getFullYear();
+const cvModal = document.getElementById("cv-modal");
+const openCvButton = document.getElementById("open-cv-button");
+const closeCvButton = document.getElementById("close-cv-button");
+
+function closeCvModal() {
+  if (cvModal.hidden) return;
+  cvModal.classList.remove("is-open");
+  document.body.classList.remove("modal-open");
+  window.setTimeout(() => {
+    cvModal.hidden = true;
+    openCvButton.focus();
+  }, 180);
+}
+
+openCvButton.addEventListener("click", () => {
+  cvModal.hidden = false;
+  document.body.classList.add("modal-open");
+  requestAnimationFrame(() => cvModal.classList.add("is-open"));
+  closeCvButton.focus();
+});
+closeCvButton.addEventListener("click", closeCvModal);
+cvModal.addEventListener("click", (event) => {
+  if (event.target === cvModal) closeCvModal();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeCvModal();
+});
+const certificateModal = document.getElementById("certificate-modal");
+const certificateModalImage = document.getElementById("certificate-modal-image");
+const certificateModalTitle = document.getElementById("certificate-modal-title");
+const closeCertificateButton = document.getElementById("close-certificate-button");
+let activeCertificateButton = null;
+
+function closeCertificateModal() {
+  if (certificateModal.hidden) return;
+  certificateModal.classList.remove("is-open");
+  document.body.classList.remove("modal-open");
+  window.setTimeout(() => {
+    certificateModal.hidden = true;
+    certificateModalImage.src = "";
+    activeCertificateButton?.focus();
+  }, 180);
+}
+
+document.querySelectorAll("[data-certificate-src]").forEach((button) => {
+  button.addEventListener("click", () => {
+    activeCertificateButton = button;
+    certificateModalTitle.textContent = button.dataset.certificateTitle || "Certificate";
+    certificateModalImage.src = button.dataset.certificateSrc;
+    certificateModalImage.alt = button.querySelector("img")?.alt || certificateModalTitle.textContent;
+    certificateModal.hidden = false;
+    document.body.classList.add("modal-open");
+    requestAnimationFrame(() => certificateModal.classList.add("is-open"));
+    closeCertificateButton.focus();
+  });
+});
+closeCertificateButton.addEventListener("click", closeCertificateModal);
+certificateModal.addEventListener("click", (event) => {
+  if (event.target === certificateModal) closeCertificateModal();
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeCertificateModal();
+});
 renderPublicView();
 route();
 syncBackToTop();

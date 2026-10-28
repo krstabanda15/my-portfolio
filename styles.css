@@ -564,6 +564,40 @@ img {
   animation-delay: -2.3s;
 }
 
+#skills-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 1rem;
+}
+
+.skill-group {
+  min-width: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.035));
+}
+
+.skill-group h3 {
+  margin: 0 0 0.9rem;
+  color: var(--green);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.skill-group .skill-cloud {
+  gap: 0.5rem;
+}
+
+.skill-group .skill {
+  min-height: 42px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.86rem;
+}
+
 .project-footer {
   position: relative;
   display: flex;
@@ -955,6 +989,10 @@ textarea {
 }
 
 @media (max-width: 767px) {
+  #skills-list {
+    grid-template-columns: 1fr;
+  }
+
   .glass-nav {
     min-height: 68px;
   }
@@ -1089,6 +1127,265 @@ textarea {
 
 }
 
+.certificates-section {
+  background:
+    radial-gradient(ellipse at 50% 5%, rgba(72, 168, 255, 0.08), transparent 38rem),
+    rgba(255, 255, 255, 0.025);
+  border-block: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.certificates-section > .container > .section-heading {
+  max-width: 900px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.certificates-section .section-title {
+  font-size: clamp(2.2rem, 5vw, 3.75rem);
+  line-height: 1.05;
+}
+
+.certificate-category .row > * {
+  max-width: 390px;
+}
+
+.certificate-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.07);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.certificate-card:hover,
+.certificate-card:focus-visible {
+  color: var(--text);
+  border-color: rgba(40, 215, 181, 0.65);
+  box-shadow: 0 24px 64px rgba(40, 215, 181, 0.12);
+  transform: translateY(-5px);
+}
+
+.certificate-card img {
+  width: 100%;
+  height: 320px;
+  padding: 0.9rem;
+  object-fit: contain;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.certificate-card span {
+  padding: 1.1rem 1.2rem 1.25rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.credly-card {
+  min-height: 100%;
+  align-items: stretch;
+  text-align: center;
+}
+
+.credly-card img {
+  height: 300px;
+  padding: 0.5rem;
+  object-fit: contain;
+  background: #fff;
+}
+
+.credly-card > span {
+  padding: 1rem;
+}
+
+.credly-card small {
+  display: block;
+  margin-top: 0.65rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.certificate-category + .certificate-category {
+  margin-top: 4rem;
+}
+
+.certificate-category h3 {
+  margin: 0 0 1.5rem;
+  color: var(--text);
+  font-size: 1.45rem;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.cv-modal-backdrop {
+  position: fixed;
+  z-index: 2000;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 3vw, 2rem);
+  background: rgba(5, 10, 20, 0.72);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.cv-modal-backdrop[hidden] {
+  display: none;
+}
+
+.cv-modal-backdrop.is-open {
+  opacity: 1;
+}
+
+.cv-modal-panel {
+  display: flex;
+  width: min(100%, 1050px);
+  height: min(92vh, 900px);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 24px;
+  background: rgba(12, 19, 32, 0.96);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.55);
+  transform: translateY(16px) scale(0.985);
+  transition: transform 180ms ease;
+}
+
+.is-open .cv-modal-panel {
+  transform: translateY(0) scale(1);
+}
+
+.cv-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.cv-modal-header .eyebrow,
+.cv-modal-header h2 {
+  margin: 0;
+}
+
+.cv-modal-header h2 {
+  font-size: 1.15rem;
+}
+
+.cv-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cv-frame {
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  border: 0;
+  background: #fff;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.certificate-modal-backdrop {
+  position: fixed;
+  z-index: 2001;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 3vw, 2rem);
+  background: rgba(5, 10, 20, 0.72);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.certificate-modal-backdrop[hidden] {
+  display: none;
+}
+
+.certificate-modal-backdrop.is-open {
+  opacity: 1;
+}
+
+.certificate-modal-panel {
+  display: flex;
+  width: min(100%, 1100px);
+  height: min(92vh, 950px);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 24px;
+  background: rgba(12, 19, 32, 0.96);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.55);
+  transform: translateY(16px) scale(0.985);
+  transition: transform 180ms ease;
+}
+
+.is-open .certificate-modal-panel {
+  transform: translateY(0) scale(1);
+}
+
+.certificate-modal-panel > img {
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  padding: 1rem;
+  object-fit: contain;
+}
+
+@media (max-width: 600px) {
+  .cv-modal-backdrop {
+    padding: 0;
+  }
+
+  .certificate-modal-backdrop {
+    padding: 0;
+  }
+
+  .cv-modal-panel {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .certificate-modal-panel {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .cv-modal-header {
+    align-items: flex-start;
+    padding: 0.85rem;
+  }
+
+  .cv-modal-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .certificate-card img {
+    height: 320px;
+  }
+}
+
 @media (max-width: 991px) {
   .glass-nav {
     background: rgba(7, 9, 16, 0.9);
@@ -1164,6 +1461,7 @@ textarea {
   #work,
   #stack,
   #journey,
+  #certificates,
   #contact {
     scroll-margin-top: 82px;
   }
@@ -1177,6 +1475,7 @@ textarea {
   #work,
   #stack,
   #journey,
+  #certificates,
   #contact {
     scroll-margin-top: 76px;
   }

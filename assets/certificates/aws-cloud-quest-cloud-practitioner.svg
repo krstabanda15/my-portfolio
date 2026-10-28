@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 334 334" role="img" aria-labelledby="title desc">
+  <title id="title">AWS Cloud Quest: Cloud Practitioner — Trained</title>
+  <desc id="desc">AWS Cloud Quest Cloud Practitioner training badge.</desc>
+  <defs>
+    <linearGradient id="shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#07545b"/>
+      <stop offset="1" stop-color="#07524b"/>
+    </linearGradient>
+    <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#075054"/>
+      <stop offset="1" stop-color="#347b4d"/>
+    </linearGradient>
+    <clipPath id="shield-clip">
+      <path d="M167 16C122 16 78 27 45 48v207c34 24 78 38 122 43 46-5 89-19 122-43V48c-34-21-77-32-122-32Z"/>
+    </clipPath>
+  </defs>
+  <rect width="334" height="334" fill="#fff"/>
+  <path d="M167 16C122 16 78 27 45 48v207c34 24 78 38 122 43 46-5 89-19 122-43V48c-34-21-77-32-122-32Z" fill="url(#shield)" stroke="#5b9d4e" stroke-width="7"/>
+  <g clip-path="url(#shield-clip)">
+    <path d="M53 63c34-21 74-31 114-31s81 10 114 31v177H53Z" fill="url(#field)"/>
+    <text x="167" y="91" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="38" font-weight="500">aws</text>
+    <path d="M136 98c17 13 44 15 62 1" fill="none" stroke="#fff" stroke-width="2.7" stroke-linecap="round"/>
+    <path d="M79 135h176" stroke="#d4e6df" stroke-width="1.5"/>
+    <text x="167" y="123" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="4">CLOUD QUEST</text>
+    <text x="167" y="176" text-anchor="middle" fill="#f5f6f3" font-family="Arial,sans-serif" font-size="28" font-weight="700">Cloud</text>
+    <text x="167" y="205" text-anchor="middle" fill="#f5f6f3" font-family="Arial,sans-serif" font-size="27" font-weight="700">Practitioner</text>
+    <path d="M53 225h228v36H53z" fill="#034d53"/>
+    <text x="167" y="252" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="19" font-weight="700" letter-spacing="4">TRAINED</text>
+  </g>
+</svg>

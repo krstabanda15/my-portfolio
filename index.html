@@ -24,7 +24,7 @@
     />
     <link rel="stylesheet" href="styles.css?v=idle-logout-1" />
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script defer src="app.js"></script>
+    <script defer src="app.js?v=experience-order-1"></script>
   </head>
   <body>
     <div class="site-glow site-glow-one"></div>
@@ -50,8 +50,9 @@
         <div class="collapse navbar-collapse" id="mainNav">
           <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
             <a class="nav-link" href="#work">Work</a>
-            <a class="nav-link" href="#stack">Stack</a>
+            <a class="nav-link" href="#stack">Skills</a>
             <a class="nav-link" href="#journey">Journey</a>
+            <a class="nav-link" href="#certificates">Certificates</a>
             <a class="nav-link" href="#contact">Contact</a>
             <a class="btn btn-sm btn-outline-light admin-pill" href="#admin">Admin</a>
           </div>
@@ -86,6 +87,10 @@
                     <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
                     Vercel
                   </a>
+                  <button class="btn btn-outline-light btn-lg" type="button" id="open-cv-button" aria-haspopup="dialog" aria-controls="cv-modal">
+                    <i class="bi bi-file-earmark-person" aria-hidden="true"></i>
+                    View CV
+                  </button>
                 </div>
               </div>
             </div>
@@ -147,8 +152,8 @@
         <div class="container">
           <div class="row g-5 align-items-center">
             <div class="col-lg-4 reveal-up">
-              <p class="eyebrow">Technical Stack</p>
-              <h2 class="section-title">A practical toolkit for web, mobile, and backend work.</h2>
+              <p class="eyebrow">Technical Skills</p>
+              <h2 class="section-title">Technologies I use to build web and mobile applications.</h2>
             </div>
             <div class="col-lg-8 reveal-up delay-1">
               <div class="skill-cloud" id="skills-list"></div>
@@ -162,7 +167,7 @@
           <div class="row g-4">
             <div class="col-lg-6 reveal-up">
               <div class="glass-panel h-100">
-                <p class="eyebrow">Experience</p>
+                <p class="eyebrow">Professional Experience</p>
                 <div class="timeline" id="experience-list"></div>
               </div>
             </div>
@@ -171,6 +176,35 @@
                 <p class="eyebrow">Education</p>
                 <div class="timeline" id="education-list"></div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="certificates" class="section-block certificates-section">
+        <div class="container">
+          <div class="section-heading reveal-up">
+            <p class="eyebrow">Certificates & Recognition</p>
+            <h2 class="section-title">Milestones I’m proud of.</h2>
+          </div>
+          <div class="certificate-category">
+            <h3>Academic Achievements</h3>
+            <div class="row g-4 justify-content-center">
+              <div class="col-12 col-sm-6 col-lg-4"><button class="certificate-card" type="button" data-certificate-src="assets/certificates/deans-list-second-semester-2026.jpg" data-certificate-title="Dean’s Lister · Second Semester 2025–2026"><img src="assets/certificates/deans-list-second-semester-2026.jpg" alt="Certificate of Merit for Dean’s Lister, second semester of academic year 2025–2026" loading="lazy"><span>Dean’s Lister · Second Semester 2025–2026</span></button></div>
+              <div class="col-12 col-sm-6 col-lg-4"><button class="certificate-card" type="button" data-certificate-src="assets/certificates/deans-list-first-semester-2026.jpg" data-certificate-title="Dean’s Lister · First Semester 2025–2026"><img src="assets/certificates/deans-list-first-semester-2026.jpg" alt="Certificate of Merit for Dean’s Lister, first semester of academic year 2025–2026" loading="lazy"><span>Dean’s Lister · First Semester 2025–2026</span></button></div>
+            </div>
+          </div>
+          <div class="certificate-category">
+            <h3>Professional Recognition</h3>
+            <div class="row g-4 justify-content-center">
+              <div class="col-12 col-sm-6 col-lg-4"><button class="certificate-card" type="button" data-certificate-src="assets/certificates/may-fiscal-game-changer-2024.jpg" data-certificate-title="5 Star Game-Changer · May Fiscal 2024"><img src="assets/certificates/may-fiscal-game-changer-2024.jpg" alt="Certificate of Recognition for 5 Star Game-Changer during May Fiscal at Concentrix" loading="lazy"><span>5 Star Game-Changer · May Fiscal 2024</span></button></div>
+              <div class="col-12 col-sm-6 col-lg-4"><button class="certificate-card" type="button" data-certificate-src="assets/certificates/april-fiscal-game-changer-2024.jpg" data-certificate-title="TNPS Top Game-Changer · April Fiscal 2024"><img src="assets/certificates/april-fiscal-game-changer-2024.jpg" alt="Certificate of Recognition for TNPS Top Game-Changer during April Fiscal at Concentrix" loading="lazy"><span>TNPS Top Game-Changer · April Fiscal 2024</span></button></div>
+            </div>
+          </div>
+          <div class="certificate-category">
+            <h3>Other Achievements</h3>
+            <div class="row g-4 justify-content-center">
+              <div class="col-12 col-sm-6 col-lg-4"><a class="certificate-card credly-card" href="https://www.credly.com/badges/53f446f5-3fed-47e3-95e0-32054e8f8179/linked_in?t=tf7oki" target="_blank" rel="noopener noreferrer" aria-label="Verify AWS Cloud Quest: Cloud Practitioner training badge on Credly"><img src="assets/certificates/aws-cloud-quest-cloud-practitioner.svg" alt="AWS Cloud Quest: Cloud Practitioner — Trained badge"><span>AWS Cloud Quest: Cloud Practitioner <small>AWS Training and Certification · Training Badge · Verify on Credly <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></small></span></a></div>
             </div>
           </div>
         </div>
@@ -283,10 +317,10 @@
           <section class="admin-card">
             <h2>Resume Data</h2>
             <label>Stats <span>One per line, format: label | value</span><textarea name="stats" rows="5"></textarea></label>
-            <label>Skills <span>Separate with commas</span><textarea name="skills" rows="5"></textarea></label>
+            <label>Technical skills <span>One group per line: category | comma-separated skills</span><textarea name="skills" rows="7"></textarea></label>
             <label>Projects <span>name | type | status | description | tech list | optional link</span><textarea name="projects" rows="12"></textarea></label>
             <label>Project links <span>One per line: project name | website, Vercel, GitHub, or demo URL</span><textarea name="projectLinks" rows="5"></textarea></label>
-            <label>Experience <span>One per line: role | period | description</span><textarea name="experience" rows="7"></textarea></label>
+            <label>Professional Experience <span>One per line: role | period | description</span><textarea name="experience" rows="9"></textarea></label>
             <label>Education <span>One per line: course | period | school/details</span><textarea name="education" rows="5"></textarea></label>
             <div class="editor-actions">
               <button class="btn btn-primary" type="submit">Save changes</button>
@@ -297,5 +331,26 @@
         </form>
       </section>
     </main>
+    <div class="cv-modal-backdrop" id="cv-modal" hidden>
+      <section class="cv-modal-panel" role="dialog" aria-modal="true" aria-labelledby="cv-modal-title">
+        <header class="cv-modal-header">
+          <div><p class="eyebrow">Curriculum Vitae</p><h2 id="cv-modal-title">Kim Reuben Tabanda</h2></div>
+          <div class="cv-modal-actions">
+            <a class="btn btn-outline-light btn-sm" href="assets/documents/kim-reuben-tabanda-cv.pdf" download>Download PDF</a>
+            <button class="btn btn-outline-light btn-sm" type="button" id="close-cv-button" aria-label="Close CV">Close <span aria-hidden="true">×</span></button>
+          </div>
+        </header>
+        <iframe class="cv-frame" src="assets/documents/kim-reuben-tabanda-cv.pdf#toolbar=0" title="Kim Reuben Tabanda CV"></iframe>
+      </section>
+    </div>
+    <div class="certificate-modal-backdrop" id="certificate-modal" hidden>
+      <section class="certificate-modal-panel" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title">
+        <header class="cv-modal-header">
+          <h2 id="certificate-modal-title">Certificate</h2>
+          <button class="btn btn-outline-light btn-sm" type="button" id="close-certificate-button" aria-label="Close certificate">Close <span aria-hidden="true">×</span></button>
+        </header>
+        <img id="certificate-modal-image" src="" alt="">
+      </section>
+    </div>
   </body>
 </html>
