@@ -1,6 +1,6 @@
 "use strict";
 
-const STORAGE_KEY = "kim-reuben-tabanda-portfolio-content-v8";
+const STORAGE_KEY = "kim-reuben-tabanda-portfolio-content-v10";
 const SESSION_KEY = "kim-reuben-tabanda-portfolio-admin";
 const ADMIN_PASSCODE = "change-me-2026";
 const ADMIN_IDLE_LIMIT_MS = 15 * 60 * 1000;
@@ -162,9 +162,9 @@ const defaultContent = {
     },
     {
       role: "Primary — Elementary Diploma",
-      period: "",
+      period: "2010–2011",
       description:
-        "Cadiz East Elementary School - 1. Cadiz City.",
+        "Cadiz East Elementary School - 1. Cadiz City, Negros Occidental.",
     },
   ],
 };
@@ -201,17 +201,19 @@ function loadContent() {
     if (saved) return normalizeContent(JSON.parse(saved));
 
     // Preserve profile edits while updating corrected timeline data.
+    const previousV9 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v9");
+    const previousV8 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v8");
     const previousV7 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v7");
     const previousV6 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v6");
     const previousV5 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v5");
     const previousV4 = localStorage.getItem("kim-reuben-tabanda-portfolio-content-v4");
-    const previous = previousV7 || previousV6 || previousV5 || previousV4 ||
+    const previous = previousV9 || previousV8 || previousV7 || previousV6 || previousV5 || previousV4 ||
       localStorage.getItem("kim-reuben-tabanda-portfolio-content-v3") ||
       localStorage.getItem("kim-reuben-tabanda-portfolio-content-v2");
     const migrated = normalizeContent(previous ? JSON.parse(previous) : {});
     migrated.education = structuredClone(defaultContent.education);
     migrated.experience = structuredClone(defaultContent.experience);
-    if (!previousV7 && !previousV6 && !previousV5 && !previousV4) {
+    if (!previousV9 && !previousV8 && !previousV7 && !previousV6 && !previousV5 && !previousV4) {
       migrated.projects = structuredClone(defaultContent.projects);
       migrated.skills = structuredClone(defaultContent.skills);
     }
